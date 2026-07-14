@@ -25,10 +25,21 @@ if ([string]::IsNullOrEmpty($PROJECT_ID) -or $PROJECT_ID -eq "(unset)") {
 
 Write-Host "Using GCP Project: $PROJECT_ID" -ForegroundColor Green
 
+# Try to read GEMINI_API_KEY from backend/.env if it exists and not set in environment
+if ([string]::IsNullOrEmpty($env:GEMINI_API_KEY) -and (Test-Path "backend/.env")) {
+    $envFile = Get-Content "backend/.env"
+    foreach ($line in $envFile) {
+        if ($line -match "^GEMINI_API_KEY\s*=\s*(.*)$") {
+            $env:GEMINI_API_KEY = $Matches[1].Trim()
+            break
+        }
+    }
+}
+
 # Prompt for Gemini API Key if not already in env
 $GEMINI_KEY = $env:GEMINI_API_KEY
 if ([string]::IsNullOrEmpty($GEMINI_KEY)) {
-    Write-Host "GEMINI_API_KEY is not set in your environment variables." -ForegroundColor Yellow
+    Write-Host "GEMINI_API_KEY is not set in your environment variables or backend/.env." -ForegroundColor Yellow
     $GEMINI_KEY = Read-Host -AsSecureString "Please enter your Gemini API Key (or press Enter to deploy without a key)"
     # Convert SecureString to plain text
     if ($GEMINI_KEY) {

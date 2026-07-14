@@ -1,0 +1,26 @@
+# Environments and Secrets
+.env
+backend/.env
+frontend/.env
+*.key
+
+# Python / pytest
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+env/
+ENV/
+
+# Node / JS / TS
+node_modules/
+dist/
+dist-ssr/
+*.local
+.eslintcache
+
+# OS Files
+.DS_Store
+Thumbs.db

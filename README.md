@@ -69,6 +69,18 @@ npm run dev
 ```
 The frontend dev server will launch on `http://localhost:3000`.
 
+### D. Alternative: Cloud Deployment (Render & Vercel)
+For a free, quick cloud deployment:
+1. **Backend (Render)**:
+   - Create an account on [Render](https://render.com/).
+   - Click **New** -> **Blueprint**.
+   - Link your Git repository. Render will automatically detect [render.yaml](file:///c:/Users/appus/OneDrive/Desktop/New%20folder%20(2)/Promptwar3/render.yaml) and configure the Docker build.
+   - Enter your `GEMINI_API_KEY` in the Render dashboard environment variables when prompted.
+2. **Frontend (Vercel)**:
+   - Deploy your project to [Vercel](https://vercel.com/).
+   - Set the root directory of the Vercel project to `frontend`.
+   - Update `destination` in [frontend/vercel.json](file:///c:/Users/appus/OneDrive/Desktop/New%20folder%20(2)/Promptwar3/frontend/vercel.json) to point to your new Render backend URL.
+
 ---
 
 ## 4. How GenAI Logic Makes Decisions

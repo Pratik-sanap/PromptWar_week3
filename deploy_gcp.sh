@@ -28,9 +28,14 @@ fi
 
 echo "Using GCP Project: $PROJECT_ID"
 
+# Try to read GEMINI_API_KEY from backend/.env if it exists and not set in environment
+if [ -z "$GEMINI_API_KEY" ] && [ -f "backend/.env" ]; then
+    GEMINI_API_KEY=$(grep -E "^GEMINI_API_KEY=" backend/.env | cut -d'=' -f2- | tr -d '\r' | xargs)
+fi
+
 # Prompt for Gemini API Key if not already in env
 if [ -z "$GEMINI_API_KEY" ]; then
-    echo "GEMINI_API_KEY is not set in your shell environment."
+    echo "GEMINI_API_KEY is not set in your shell environment or backend/.env."
     echo "Please enter your Gemini API Key (or press Enter to deploy without a key - it will degrade to offline/mock mode):"
     read -r -s GEMINI_API_KEY
     echo
