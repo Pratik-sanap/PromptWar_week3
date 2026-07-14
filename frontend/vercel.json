@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://YOUR-RENDER-SERVICE-NAME.onrender.com/api/:path*"
+      "destination": "https://stadium-concierge-backend-exs-d9b8rtd7vvec73dc4dg0.onrender.com/api/:path*"
     },
     {
       "source": "/((?!api/).*)",
