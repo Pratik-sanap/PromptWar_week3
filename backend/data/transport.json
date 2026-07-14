@@ -1,0 +1,11 @@
+[
+  {"zone": "zone_a", "mode": "train", "line": "Metro Line 1 (Stadium South)", "eta": "3 mins"},
+  {"zone": "zone_a", "mode": "bus", "line": "Express Shuttle 501", "eta": "7 mins"},
+  {"zone": "zone_a", "mode": "shuttle", "line": "ADA Cart Shuttle", "accessible": true, "eta": "4 mins"},
+  {"zone": "zone_b", "mode": "train", "line": "Metro Line 1 (Stadium South)", "eta": "5 mins"},
+  {"zone": "zone_b", "mode": "bus", "line": "Express Shuttle 502", "eta": "10 mins"},
+  {"zone": "zone_c", "mode": "train", "line": "Metro Line 2 (Stadium South)", "eta": "2 mins"},
+  {"zone": "zone_c", "mode": "bus", "line": "Express Shuttle 503", "eta": "8 mins"},
+  {"zone": "zone_d", "mode": "train", "line": "Metro Line 2 (Stadium South)", "eta": "4 mins"},
+  {"zone": "zone_d", "mode": "bus", "line": "Express Shuttle 504", "eta": "11 mins"}
+]

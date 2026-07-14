@@ -1,0 +1,10 @@
+[
+  {"id": "gate_a1", "name": "Gate A1", "zone": "zone_a", "distance": 75, "queue_status": "Low", "accessible": true},
+  {"id": "gate_a2", "name": "Gate A2", "zone": "zone_a", "distance": 150, "queue_status": "High", "accessible": false},
+  {"id": "gate_b1", "name": "Gate B1", "zone": "zone_b", "distance": 80, "queue_status": "High", "accessible": false},
+  {"id": "gate_b2", "name": "Gate B2", "zone": "zone_b", "distance": 120, "queue_status": "Low", "accessible": true},
+  {"id": "gate_b3", "name": "Gate B3", "zone": "zone_b", "distance": 130, "queue_status": "Medium", "accessible": false},
+  {"id": "gate_c1", "name": "Gate C1", "zone": "zone_c", "distance": 60, "queue_status": "Medium", "accessible": false},
+  {"id": "gate_c2", "name": "Gate C2", "zone": "zone_c", "distance": 110, "queue_status": "High", "accessible": true},
+  {"id": "gate_c3", "name": "Gate C3", "zone": "zone_c", "distance": 140, "queue_status": "Low", "accessible": true}
+]

@@ -1,0 +1,8 @@
+[
+  {"zone": "zone_a", "density": "40%", "status": "Normal"},
+  {"zone": "zone_b", "density": "85%", "status": "Busy"},
+  {"zone": "zone_c", "density": "90%", "status": "Busy"},
+  {"zone": "zone_d", "density": "35%", "status": "Normal"},
+  {"zone": "zone_e", "density": "20%", "status": "Normal"},
+  {"zone": "zone_f", "density": "15%", "status": "Normal"}
+]
