@@ -1,8 +1,14 @@
 import os
+import sys
+
+# Ensure the backend directory is in sys.path so relative imports work
+# when running: python main.py  (from inside the backend/ folder)
+sys.path.insert(0, os.path.dirname(__file__))
+
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routes import chat, health
+from routes import chat, health
 
 load_dotenv()
 

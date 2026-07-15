@@ -1,5 +1,5 @@
 from typing import Dict, Any, List, Optional
-from backend.data import db
+from data import db
 
 VALID_ZONES = {"zone_a", "zone_b", "zone_c", "zone_d", "zone_e", "zone_f"}
 

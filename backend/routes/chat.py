@@ -2,7 +2,7 @@ import time
 from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field, field_validator
-from backend.ai import orchestration
+from ai import orchestration
 
 router = APIRouter()
 

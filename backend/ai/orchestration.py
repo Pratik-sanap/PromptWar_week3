@@ -2,8 +2,8 @@ import os
 from typing import Dict, Any, List, Optional
 import google.generativeai as genai
 from google.generativeai.types import content_types
-from backend.ai import client
-from backend.ai.tools import find_nearest_gate, get_transport_options, get_crowd_density, get_accessibility_route
+from ai import client
+from ai.tools import find_nearest_gate, get_transport_options, get_crowd_density, get_accessibility_route
 
 # Cache for the system prompt
 _SYSTEM_PROMPT: Optional[str] = None
