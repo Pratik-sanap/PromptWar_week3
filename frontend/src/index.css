@@ -161,6 +161,11 @@ body {
   border-color: var(--text-muted);
 }
 
+.select-control option {
+  background-color: var(--bg-sidebar);
+  color: var(--text-primary);
+}
+
 /* Accessibility Toggles */
 .toggle-card {
   display: flex;
