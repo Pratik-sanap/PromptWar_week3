@@ -5,12 +5,11 @@ services:
   - type: web
     name: stadium-concierge-backend
     env: python
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     plan: free
     envVars:
       - key: GEMINI_API_KEY
-        sync: false # Set manually in Render Dashboard or during creation
+        sync: false # Set manually in Render Dashboard
       - key: ALLOWED_ORIGINS
-        value: "*" # Set to your Vercel URL once deployed to restrict CORS
+        value: "*" # Restrict to your Vercel URL after deployment
