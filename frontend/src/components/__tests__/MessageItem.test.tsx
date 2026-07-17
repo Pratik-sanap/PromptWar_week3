@@ -9,7 +9,7 @@ describe('MessageItem', () => {
       id: '1',
       sender: 'user',
       text: 'Hello concierge',
-      timestamp: new Date('2026-07-14T12:00:00')
+      timestamp: new Date('2026-07-14T12:00:00'),
     };
 
     render(<MessageItem message={userMsg} />);
@@ -31,9 +31,9 @@ describe('MessageItem', () => {
           gateName: 'Gate B3',
           distance: '130m',
           queueStatus: 'Medium',
-          accessible: false
-        }
-      }
+          accessible: false,
+        },
+      },
     };
 
     render(<MessageItem message={assistantMsg} />);
@@ -43,7 +43,9 @@ describe('MessageItem', () => {
     expect(screen.getByText('Gate B3')).toBeInTheDocument();
 
     // Checks assistant chat bubble is rendered
-    expect(screen.getByText('Here is the gate recommendation.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Here is the gate recommendation.')
+    ).toBeInTheDocument();
     expect(screen.getByRole('listitem')).toHaveClass('assistant-item');
   });
 });

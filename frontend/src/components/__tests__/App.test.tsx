@@ -15,21 +15,35 @@ describe('App Component', () => {
     expect(screen.getByText('Smart Stadium Concierge')).toBeInTheDocument();
 
     // Dropdown checks
-    expect(screen.getByLabelText('Select language for conversation')).toBeInTheDocument();
-    expect(screen.getByLabelText('Select your current stadium zone')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Select language for conversation')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Select your current stadium zone')
+    ).toBeInTheDocument();
 
     // Accessibility buttons checks
-    expect(screen.getByLabelText('Toggle Wheelchair or Ramp assistance routes')).toBeInTheDocument();
-    expect(screen.getByLabelText('Toggle Visual Assistance high contrast or audio descriptions')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Toggle Wheelchair or Ramp assistance routes')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(
+        'Toggle Visual Assistance high contrast or audio descriptions'
+      )
+    ).toBeInTheDocument();
 
     // Chat empty state message checks
-    expect(screen.getByText('Welcome to the FIFA 2026 Smart Concierge')).toBeInTheDocument();
+    expect(
+      screen.getByText('Welcome to the FIFA 2026 Smart Concierge')
+    ).toBeInTheDocument();
   });
 
   it('handles message typing and submission in mock mode', async () => {
     render(<App />);
 
-    const input = screen.getByPlaceholderText('Ask about gates, crowds, or metro lines...');
+    const input = screen.getByPlaceholderText(
+      'Ask about gates, crowds, or metro lines...'
+    );
     const sendBtn = screen.getByLabelText('Send message');
 
     // Type a message
@@ -54,7 +68,9 @@ describe('App Component', () => {
     });
 
     // Typing indicator should disappear
-    expect(screen.queryByLabelText('Assistant is typing')).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText('Assistant is typing')
+    ).not.toBeInTheDocument();
 
     // Assistant response with Gate Recommendation card should appear
     expect(screen.getByTestId('gate-card')).toBeInTheDocument();
@@ -64,13 +80,17 @@ describe('App Component', () => {
   it('handles accessibility toggle state and changes mock response', async () => {
     render(<App />);
 
-    const wheelchairBtn = screen.getByLabelText('Toggle Wheelchair or Ramp assistance routes');
-    
+    const wheelchairBtn = screen.getByLabelText(
+      'Toggle Wheelchair or Ramp assistance routes'
+    );
+
     // Toggle wheelchair assistance
     fireEvent.click(wheelchairBtn);
     expect(wheelchairBtn).toHaveClass('active');
 
-    const input = screen.getByPlaceholderText('Ask about gates, crowds, or metro lines...');
+    const input = screen.getByPlaceholderText(
+      'Ask about gates, crowds, or metro lines...'
+    );
     const sendBtn = screen.getByLabelText('Send message');
 
     // Send gate request
@@ -110,18 +130,27 @@ describe('App Component', () => {
           reply: 'Live assistant JSON response here.',
           structuredData: {
             type: 'gate_recommendation',
-            data: { gateName: 'Gate A1', distance: '50m', queueStatus: 'Low', accessible: true }
-          }
-        })
+            data: {
+              gateName: 'Gate A1',
+              distance: '50m',
+              queueStatus: 'Low',
+              accessible: true,
+            },
+          },
+        }),
       });
 
       render(<App />);
 
       // Turn off mock mode
-      const mockToggle = screen.getByLabelText('Toggle mock responses vs backend live API');
+      const mockToggle = screen.getByLabelText(
+        'Toggle mock responses vs backend live API'
+      );
       fireEvent.click(mockToggle);
 
-      const input = screen.getByPlaceholderText('Ask about gates, crowds, or metro lines...');
+      const input = screen.getByPlaceholderText(
+        'Ask about gates, crowds, or metro lines...'
+      );
       const sendBtn = screen.getByLabelText('Send message');
 
       fireEvent.change(input, { target: { value: 'where is the gate?' } });
@@ -131,7 +160,9 @@ describe('App Component', () => {
       expect(mockFetch).toHaveBeenCalledWith('/api/chat', expect.any(Object));
 
       // Wait for assistant response
-      const responseText = await screen.findByText('Live assistant JSON response here.');
+      const responseText = await screen.findByText(
+        'Live assistant JSON response here.'
+      );
       expect(responseText).toBeInTheDocument();
       expect(screen.getByText('Gate A1')).toBeInTheDocument();
     });
@@ -142,7 +173,7 @@ describe('App Component', () => {
         'data: {"reply": "from "}\n',
         'data: {"reply": "streamed "}\n',
         'data: {"reply": "live response.", "structuredData": {"type": "crowd_density", "data": {"zone": "zone_a", "density": "12%", "status": "Normal"}}}\n',
-        'data: [DONE]\n'
+        'data: [DONE]\n',
       ];
 
       let chunkIdx = 0;
@@ -153,31 +184,37 @@ describe('App Component', () => {
             return { value: val, done: false };
           }
           return { value: undefined, done: true };
-        })
+        }),
       };
 
       mockFetch.mockResolvedValueOnce({
         ok: true,
         headers: new Headers({ 'Content-Type': 'text/event-stream' }),
         body: {
-          getReader: () => reader
-        }
+          getReader: () => reader,
+        },
       });
 
       render(<App />);
 
       // Turn off mock mode
-      const mockToggle = screen.getByLabelText('Toggle mock responses vs backend live API');
+      const mockToggle = screen.getByLabelText(
+        'Toggle mock responses vs backend live API'
+      );
       fireEvent.click(mockToggle);
 
-      const input = screen.getByPlaceholderText('Ask about gates, crowds, or metro lines...');
+      const input = screen.getByPlaceholderText(
+        'Ask about gates, crowds, or metro lines...'
+      );
       const sendBtn = screen.getByLabelText('Send message');
 
       fireEvent.change(input, { target: { value: 'how busy is zone a?' } });
       fireEvent.click(sendBtn);
 
       // Wait for stream to finish and update text
-      const finalMsg = await screen.findByText('Hello from streamed live response.');
+      const finalMsg = await screen.findByText(
+        'Hello from streamed live response.'
+      );
       expect(finalMsg).toBeInTheDocument();
       expect(screen.getByText('Density: 12% capacity')).toBeInTheDocument();
     });
@@ -190,17 +227,23 @@ describe('App Component', () => {
       render(<App />);
 
       // Turn off mock mode
-      const mockToggle = screen.getByLabelText('Toggle mock responses vs backend live API');
+      const mockToggle = screen.getByLabelText(
+        'Toggle mock responses vs backend live API'
+      );
       fireEvent.click(mockToggle);
 
-      const input = screen.getByPlaceholderText('Ask about gates, crowds, or metro lines...');
+      const input = screen.getByPlaceholderText(
+        'Ask about gates, crowds, or metro lines...'
+      );
       const sendBtn = screen.getByLabelText('Send message');
 
       fireEvent.change(input, { target: { value: 'test timeout' } });
       fireEvent.click(sendBtn);
 
       // Verify timeout error message is displayed
-      const errorText = await screen.findByText('The request timed out. Please check your network connection and try again.');
+      const errorText = await screen.findByText(
+        'The request timed out. Please check your network connection and try again.'
+      );
       expect(errorText).toBeInTheDocument();
     });
 
@@ -208,23 +251,29 @@ describe('App Component', () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 500,
-        headers: new Headers()
+        headers: new Headers(),
       });
 
       render(<App />);
 
       // Turn off mock mode
-      const mockToggle = screen.getByLabelText('Toggle mock responses vs backend live API');
+      const mockToggle = screen.getByLabelText(
+        'Toggle mock responses vs backend live API'
+      );
       fireEvent.click(mockToggle);
 
-      const input = screen.getByPlaceholderText('Ask about gates, crowds, or metro lines...');
+      const input = screen.getByPlaceholderText(
+        'Ask about gates, crowds, or metro lines...'
+      );
       const sendBtn = screen.getByLabelText('Send message');
 
       fireEvent.change(input, { target: { value: 'test server failure' } });
       fireEvent.click(sendBtn);
 
       // Verify generic error message is displayed
-      const errorText = await screen.findByText('Failed to reach the live assistant. Ensure the backend server is running, or switch on Mock Mode.');
+      const errorText = await screen.findByText(
+        'Failed to reach the live assistant. Ensure the backend server is running, or switch on Mock Mode.'
+      );
       expect(errorText).toBeInTheDocument();
     });
   });

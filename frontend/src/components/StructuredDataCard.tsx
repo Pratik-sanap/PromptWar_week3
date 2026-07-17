@@ -28,7 +28,15 @@ interface StructuredDataCardProps {
   structured: StructuredData;
 }
 
-export const StructuredDataCard: React.FC<StructuredDataCardProps> = ({ structured }) => {
+/**
+ * StructuredDataCard component parses and renders visually rich widgets
+ * for specific structured responses (e.g. gates, crowds, transit options).
+ *
+ * @param props Contains structured data type and structured details payload.
+ */
+export const StructuredDataCard: React.FC<StructuredDataCardProps> = ({
+  structured,
+}) => {
   const { type, data } = structured;
 
   if (type === 'gate_recommendation') {
@@ -39,7 +47,10 @@ export const StructuredDataCard: React.FC<StructuredDataCardProps> = ({ structur
         <div className="card-header">
           <span className="card-tag">Recommended Gate</span>
           {gate.accessible && (
-            <span className="accessible-badge" title="Accessible Route Available">
+            <span
+              className="accessible-badge"
+              title="Accessible Route Available"
+            >
               ♿ Accessible
             </span>
           )}
@@ -66,7 +77,10 @@ export const StructuredDataCard: React.FC<StructuredDataCardProps> = ({ structur
   if (type === 'transport_options') {
     const transport = data as { options: TransportOption[] };
     return (
-      <div className="structured-card transport-card" data-testid="transport-card">
+      <div
+        className="structured-card transport-card"
+        data-testid="transport-card"
+      >
         <div className="card-header">
           <span className="card-tag">Transport Options</span>
         </div>
@@ -78,7 +92,10 @@ export const StructuredDataCard: React.FC<StructuredDataCardProps> = ({ structur
                   {opt.mode.toLowerCase() === 'bus' && '🚌'}
                   {opt.mode.toLowerCase() === 'train' && '🚇'}
                   {opt.mode.toLowerCase() === 'shuttle' && '🚐'}
-                  {opt.mode.toLowerCase() !== 'bus' && opt.mode.toLowerCase() !== 'train' && opt.mode.toLowerCase() !== 'shuttle' && '🚶'}
+                  {opt.mode.toLowerCase() !== 'bus' &&
+                    opt.mode.toLowerCase() !== 'train' &&
+                    opt.mode.toLowerCase() !== 'shuttle' &&
+                    '🚶'}
                 </div>
                 <div className="transport-info">
                   <div className="transport-line">{opt.line}</div>
@@ -103,12 +120,16 @@ export const StructuredDataCard: React.FC<StructuredDataCardProps> = ({ structur
         </div>
         <div className="card-body">
           <div className="crowd-main">
-            <span className="crowd-zone">{crowd.zone.replace('_', ' ').toUpperCase()}</span>
-            <span className={`status-badge ${statusClass}`}>{crowd.status}</span>
+            <span className="crowd-zone">
+              {crowd.zone.replace('_', ' ').toUpperCase()}
+            </span>
+            <span className={`status-badge ${statusClass}`}>
+              {crowd.status}
+            </span>
           </div>
           <div className="crowd-bar-container">
-            <div 
-              className={`crowd-bar ${statusClass}`} 
+            <div
+              className={`crowd-bar ${statusClass}`}
               style={{ width: crowd.density }}
             ></div>
           </div>

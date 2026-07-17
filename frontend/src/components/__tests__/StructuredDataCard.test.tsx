@@ -11,8 +11,8 @@ describe('StructuredDataCard', () => {
         gateName: 'Gate A1',
         distance: '85m',
         queueStatus: 'Low',
-        accessible: true
-      }
+        accessible: true,
+      },
     };
 
     render(<StructuredDataCard structured={gateStructured} />);
@@ -31,8 +31,8 @@ describe('StructuredDataCard', () => {
         gateName: 'Gate B3',
         distance: '130m',
         queueStatus: 'Medium',
-        accessible: false
-      }
+        accessible: false,
+      },
     };
 
     render(<StructuredDataCard structured={gateStructured} />);
@@ -48,9 +48,9 @@ describe('StructuredDataCard', () => {
       data: {
         options: [
           { mode: 'train', line: 'Metro Line 1', eta: '3 mins' },
-          { mode: 'bus', line: 'Express Shuttle 102', eta: '8 mins' }
-        ]
-      }
+          { mode: 'bus', line: 'Express Shuttle 102', eta: '8 mins' },
+        ],
+      },
     };
 
     render(<StructuredDataCard structured={transportStructured} />);
@@ -68,8 +68,8 @@ describe('StructuredDataCard', () => {
       data: {
         zone: 'zone_c',
         density: '85%',
-        status: 'Busy'
-      }
+        status: 'Busy',
+      },
     };
 
     render(<StructuredDataCard structured={crowdStructured} />);

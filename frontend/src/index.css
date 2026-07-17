@@ -8,11 +8,11 @@
   --text-primary: #f3f4f6;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
-  
+
   --accent: #3b82f6;
   --accent-glow: rgba(59, 130, 246, 0.25);
   --border-color: #1e293b;
-  
+
   /* Statuses */
   --status-low: #10b981;
   --status-low-bg: rgba(16, 185, 129, 0.15);
@@ -20,11 +20,12 @@
   --status-medium-bg: rgba(245, 158, 11, 0.15);
   --status-high: #ef4444;
   --status-high-bg: rgba(239, 68, 68, 0.15);
-  
-  --sans-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --sans-font:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   color-scheme: dark;
 }
 
@@ -226,19 +227,19 @@ body {
   right: 0;
   bottom: 0;
   background-color: #334155;
-  transition: .3s;
+  transition: 0.3s;
   border-radius: 24px;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 18px;
   width: 18px;
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: .3s;
+  transition: 0.3s;
   border-radius: 50%;
 }
 
@@ -453,19 +454,22 @@ input:checked + .slider:before {
   width: fit-content;
 }
 
-.queue-low, .density-normal {
+.queue-low,
+.density-normal {
   color: var(--status-low);
   background-color: var(--status-low-bg);
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-.queue-medium, .density-busy {
+.queue-medium,
+.density-busy {
   color: var(--status-medium);
   background-color: var(--status-medium-bg);
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-.queue-high, .density-overcrowded {
+.queue-high,
+.density-overcrowded {
   color: var(--status-high);
   background-color: var(--status-high-bg);
   border: 1px solid rgba(239, 68, 68, 0.3);
@@ -586,7 +590,9 @@ input:checked + .slider:before {
   border-radius: 12px;
   color: var(--text-primary);
   font-size: 0.95rem;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .text-input:focus {
@@ -605,7 +611,9 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .send-button:hover:not(:disabled) {
@@ -687,15 +695,19 @@ input:checked + .slider:before {
 
 /* Animations */
 @keyframes typing-bounce {
-  0%, 80%, 100% { 
+  0%,
+  80%,
+  100% {
     transform: scale(0);
-  } 40% { 
-    transform: scale(1.0);
+  }
+  40% {
+    transform: scale(1);
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
     opacity: 0.8;
   }
@@ -706,7 +718,8 @@ input:checked + .slider:before {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
