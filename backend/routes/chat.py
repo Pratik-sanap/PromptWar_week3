@@ -6,9 +6,11 @@ import constants
 from ai import orchestration
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field, field_validator
+from utils.validation import validate_zone_id
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
 
 # Rate limit store: sessionId -> list of request timestamps
 _rate_limit_store: Dict[str, List[float]] = {}
@@ -37,8 +39,7 @@ class ChatRequest(BaseModel):
     @field_validator("zone")
     @classmethod
     def validate_zone(cls, v: str) -> str:
-        if v not in constants.VALID_ZONES:
-            raise ValueError(f"Zone must be one of {constants.VALID_ZONES}")
+        validate_zone_id(v)
         return v
 
 
@@ -66,7 +67,7 @@ def check_rate_limit(session_id: str) -> None:
 
 
 @router.post("/chat")
-async def chat_endpoint(request: ChatRequest):
+async def chat_endpoint(request: ChatRequest) -> Dict[str, Any]:
     """
     Receives chat message, enforces rate limits, and orchestrates the AI chat loop.
 

@@ -9,7 +9,7 @@ _TRANSPORT: List[Dict[str, Any]] = []
 _CROWD_DENSITY: List[Dict[str, Any]] = []
 
 
-def init_db():
+def init_db() -> None:
     """
     Initializes mock data by loading gates, zones, transport, and crowd data from JSON files.
     """
@@ -110,21 +110,23 @@ def get_recommended_gate(
             # Fallback to nearest gate in the zone if no accessible gate exists
             return min(zone_gates, key=lambda g: g["distance"])
         return min(accessible_gates, key=lambda g: g["distance"])
-    else:
-        # Standard logic
-        nearest_gate = min(zone_gates, key=lambda g: g["distance"])
 
-        # If nearest gate has a high queue, check for alternates in the same zone
-        if nearest_gate["queue_status"] == "High":
-            alternates = [
-                g
-                for g in zone_gates
-                if g["id"] != nearest_gate["id"]
-                and g["queue_status"] in ("Low", "Medium")
-                and g["distance"] <= nearest_gate["distance"] + 100
-            ]
-            if alternates:
-                # Return the nearest alternate gate with Low/Medium wait
-                return min(alternates, key=lambda g: g["distance"])
+    # Standard logic
+    nearest_gate = min(zone_gates, key=lambda g: g["distance"])
 
+    # If nearest gate has a high queue, check for alternates in the same zone
+    if nearest_gate["queue_status"] != "High":
         return nearest_gate
+
+    alternates = [
+        g
+        for g in zone_gates
+        if g["id"] != nearest_gate["id"]
+        and g["queue_status"] in ("Low", "Medium")
+        and g["distance"] <= nearest_gate["distance"] + 100
+    ]
+    if alternates:
+        # Return the nearest alternate gate with Low/Medium wait
+        return min(alternates, key=lambda g: g["distance"])
+
+    return nearest_gate

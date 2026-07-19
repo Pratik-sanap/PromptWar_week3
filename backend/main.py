@@ -41,7 +41,7 @@ app.include_router(chat.router, prefix="/api")
 
 
 @app.get("/")
-async def root():
+async def root() -> dict[str, str]:
     """
     Returns the root welcoming message of the API.
 

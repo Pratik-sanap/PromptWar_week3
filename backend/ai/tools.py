@@ -2,6 +2,7 @@ from typing import Any, Dict
 
 import constants
 from data import db
+from utils.validation import validate_zone_id
 
 
 def validate_zone(zone: str) -> None:
@@ -11,10 +12,7 @@ def validate_zone(zone: str) -> None:
     Args:
         zone (str): The zone ID to validate.
     """
-    if zone not in constants.VALID_ZONES:
-        raise ValueError(
-            f"Invalid zone ID: {zone}. Must be one of {list(constants.VALID_ZONES)}."
-        )
+    validate_zone_id(zone)
 
 
 def find_nearest_gate(zone: str, accessible: bool) -> Dict[str, Any]:

@@ -12,6 +12,48 @@ import {
 import { getMockResponse } from './utils/mockResponses';
 
 /**
+ * Parses a raw text stream chunk line by line, extracting message replies and structured card data.
+ *
+ * @param chunk The text chunk containing lines of SSE data.
+ * @returns An object containing the accumulated reply text and optional structured data.
+ */
+function parseStreamChunk(chunk: string): {
+  replyText: string;
+  structuredData?: StructuredData;
+} {
+  let replyText = '';
+  let structuredData: StructuredData | undefined;
+  const lines = chunk.split('\n');
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    let dataStr = trimmed;
+    if (trimmed.startsWith('data:')) {
+      dataStr = trimmed.slice(5).trim();
+      if (dataStr === '[DONE]') {
+        continue;
+      }
+    }
+
+    try {
+      const parsed = JSON.parse(dataStr);
+      if (parsed.reply) {
+        replyText += parsed.reply;
+      }
+      if (parsed.structuredData) {
+        structuredData = parsed.structuredData;
+      }
+    } catch {
+      replyText += dataStr;
+    }
+  }
+
+  return { replyText, structuredData };
+}
+
+/**
  * Reads and processes the stream response from the server, updating the messages array incrementally.
  *
  * @param reader The stream reader.
@@ -41,41 +83,11 @@ async function processChatStream(
         isFirstChunk = false;
       }
       const chunk = decoder.decode(value, { stream: !done });
-      const lines = chunk.split('\n');
+      const parsed = parseStreamChunk(chunk);
 
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed) continue;
-
-        if (trimmed.startsWith('data:')) {
-          const dataStr = trimmed.slice(5).trim();
-          if (dataStr === '[DONE]') {
-            continue;
-          }
-          try {
-            const parsed = JSON.parse(dataStr);
-            if (parsed.reply) {
-              accumulatedText += parsed.reply;
-            }
-            if (parsed.structuredData) {
-              structuredData = parsed.structuredData;
-            }
-          } catch {
-            accumulatedText += dataStr;
-          }
-        } else {
-          try {
-            const parsed = JSON.parse(trimmed);
-            if (parsed.reply) {
-              accumulatedText += parsed.reply;
-            }
-            if (parsed.structuredData) {
-              structuredData = parsed.structuredData;
-            }
-          } catch {
-            accumulatedText += trimmed;
-          }
-        }
+      accumulatedText += parsed.replyText;
+      if (parsed.structuredData) {
+        structuredData = parsed.structuredData;
       }
 
       setMessages((prev) =>
@@ -119,7 +131,7 @@ export const App: React.FC = () => {
   }, []);
 
   // Handle Accessibility Needs toggle
-  const handleAccessibilityToggle = (type: 'wheelchair' | 'visual') => {
+  const handleAccessibilityToggle = (type: 'wheelchair' | 'visual'): void => {
     setAccessibilityNeeds((prev) => ({
       ...prev,
       [type]: !prev[type],
@@ -132,7 +144,7 @@ export const App: React.FC = () => {
    * @param userText Message text submitted by the user.
    */
   const sendMockMessage = useCallback(
-    (userText: string) => {
+    (userText: string): void => {
       setTimeout(() => {
         const res = getMockResponse(
           userText,
@@ -162,7 +174,7 @@ export const App: React.FC = () => {
    * @param currentMessages Current history of chat messages.
    */
   const sendLiveMessage = useCallback(
-    async (userText: string, currentMessages: Message[]) => {
+    async (userText: string, currentMessages: Message[]): Promise<void> => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
@@ -227,8 +239,9 @@ export const App: React.FC = () => {
         } else {
           throw new Error('Response body is not readable');
         }
-      } catch (err: any) {
-        if (err.name === 'AbortError') {
+      } catch (err: unknown) {
+        const isAbort = err instanceof Error && err.name === 'AbortError';
+        if (isAbort) {
           setError(
             'The request timed out. Please check your network connection and try again.'
           );
@@ -246,7 +259,7 @@ export const App: React.FC = () => {
 
   // Submit chat message handler
   const handleSendMessage = useCallback(
-    async (e: React.FormEvent) => {
+    async (e: React.FormEvent): Promise<void> => {
       e.preventDefault();
       if (!inputText.trim()) return;
 
